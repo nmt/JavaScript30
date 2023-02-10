@@ -60,8 +60,9 @@
         position: absolute;
         top: 50%;
         transform: rotate(90deg);
-        transition: all 0.05s;
         transform-origin: right;
+        transition: all 0.05s;
+        transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
       }
 
       .hour-hand {
@@ -88,10 +89,12 @@
         const minutesDegrees = minutes * 6 + 90;
         const hoursDegrees = hours * 30 + 90;
 
-        if (seconds === 0 || minutes === 0 || hours === 0 || seconds === 59 || minutes === 59 || hours === 59) {
-          // hands.forEach((hand) => hand.style.removeProperty("transition"));
+        // Only need to check for seconds as other hands only move when seconds is at 0
+        // Thanks to https://medium.com/@murkrage/javascript-30-day-2-css-js-clock-ae539f10a9f9
+        if (seconds === 0) {
+          hands.forEach((hand) => (hand.style.transition = "none"));
         } else {
-          // hands.forEach((hand) => (hand.style.transition = "all 0.05s"));
+          hands.forEach((hand) => (hand.style.transition = ""));
         }
 
         // Apply transformation
